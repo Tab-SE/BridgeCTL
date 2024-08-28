@@ -22,8 +22,7 @@ python bridgectl_setup.py
 
 ### 
 Note python 3.10 or greater is required. Please use the appropriate python command on your machine to run the setup script, for example instead of "python" you may need to use "python3" or "python3.11". 
-The BridgeCTL setup script will create a folder "bridgectl" and unzip files into this folder, it will create a python virtual environment named tabenv. 
-It will then install several pip libraries in the python virtual environment then it will create a shortcut function "bridgectl" so that you can start bridgectl using that command globally. 
+The BridgeCTL setup script will create a folder "bridgectl" and unzip files into this folder, it will create a python virtual environment named tabenv. It will create a shortcut function "bridgectl" so that you can start `bridgectl` using that global command from the terminal. 
 Each time BridgeCTL starts, it will check for updates.
 
 ### Requirements
