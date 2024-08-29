@@ -33,10 +33,6 @@ Each time BridgeCTL starts, it will check for updates.
 Optional Requirements
 - If you would like to run bridge agents containers in Kubernetes you will need access to AWS Elastic Container Registry and a Kubernetes cluster.
 
-### Demo
-[Getting started with BridgeCTL](https://www.youtube.com/watch?v=n_jMKC9t6hw)
-
-[Test Bridge Feature](https://youtu.be/sksYcqdAG0o)
 
 ### Features
 - Build Tableau Bridge docker container images
@@ -63,8 +59,7 @@ Optional Requirements
 This repo contains utilities and source code example files for creating and running Tableau bridge Linux containers. These scripts may be useful but are unsupported. Please get help from other users on the Tableau Community Forums.
 
 ### Documentation for Tableau Bridge
-See official Tableau documentation for creating bridge containers on Linux
-https://help.tableau.com/current/online/en-us/to_bridge_linux_install.htm
+See ![official Tableau documentation](https://help.tableau.com/current/online/en-us/to_bridge_linux_install.htm) for creating bridge containers on Linux
 
 
 ### Release Notes
