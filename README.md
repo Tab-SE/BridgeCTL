@@ -20,28 +20,24 @@ curl -OL https://github.com/tab-se/bridgectl/releases/download/setup/bridgectl_s
 python bridgectl_setup.py
 ```
 
-### 
-Note python 3.10 or greater is required. Please use the appropriate python command on your machine to run the setup script, for example instead of "python" you may need to use "python3" or "python3.11". 
-The BridgeCTL setup script will create a folder "bridgectl" and unzip files into this folder, it will create a python virtual environment named tabenv. It will create a shortcut function `bridgectl` so that you use that global command from the terminal. 
-Each time BridgeCTL starts, it will check for updates.
-
 ### Requirements
 - Python >= 3.10
 - Docker Desktop
 - BridgeCTL works on Windows, Linux or Mac
 
-Optional Requirements
-- If you would like to run bridge agents containers in Kubernetes you will need access to AWS Elastic Container Registry and a Kubernetes cluster.
+Note python 3.10 or greater is required. Please use the appropriate python command on your machine to run the setup script, for example instead of "python" you may need to use "python3" or "python3.11". 
+The BridgeCTL setup script will create a folder "bridgectl" and a python virtual environment named tabenv. It will create a shortcut function `bridgectl` so that you can conveniently use that global command from the terminal. 
+
+
+### Quickstart Demo
+![Home](assets/quickstart_53.gif)
 
 
 ### Features
 - Build Tableau Bridge docker container images
-  - This includes downloading the latest bridge rpm from tableau.com.
-  - Download and install database drivers, we use the container_image_builder utility to allow the user to select a set of database drivers from a dropdown list.
-  - Follow best practices for building containers
+  - Download and install the bridge rpm and selected database drivers in the image.
+  - Follow best practices for building containers.
 - Run bridge containers in Docker
-  - User can easily select configuration settings from Tableau Cloud required to run bridge agents (pool_id, site_name, etc.)
-  - Spin up bridge agent containers in Docker
 - Reports
   - Display Jobs Report
   - Display Bridge Agent Status
