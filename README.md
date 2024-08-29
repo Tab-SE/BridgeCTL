@@ -30,7 +30,7 @@ The BridgeCTL setup script will create a folder "bridgectl" and a python virtual
 
 
 ### Quickstart Demo
-![Home](assets/quickstart_53.gif)
+![Home](assets/quickstart_2.gif)
 
 
 ### Features
