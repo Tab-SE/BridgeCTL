@@ -1,5 +1,9 @@
 # Release notes
 
+### Version 2.2.__ (Sept _, 2024)
+- Ability to add custom DNS mappings to the /etc/hosts file.
+- (coming soon) support for UNC filemappings for File-based data sources.
+
 ### Version 2.2.62 (August 22, 2024)
 - Improvements to Example Scripts
 - Add screenshots to readme.md
