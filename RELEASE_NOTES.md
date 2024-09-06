@@ -1,6 +1,6 @@
 # Release notes
 
-### Version 2.2.__ (Sept _, 2024)
+### Version 2.2.77 (Sept 5, 2024)
 - Ability to add custom DNS mappings to the /etc/hosts file.
 - (coming soon) support for UNC filemappings for File-based data sources.
 
