@@ -1,5 +1,10 @@
 # Release notes
 
+### Version 2.2.84 (Sept 16, 2024)
+- Small improvements to Jobs and Tasks report to include embeded extract refresh in addition to published data source.
+- Addional improvements to UNC path support for file-based data sources.
+- Update to ESRI and MS Sql driver install scripts.
+
 ### Version 2.2.77 (Sept 5, 2024)
 - Ability to add custom DNS mappings to the /etc/hosts file. Read more in [feature details](https://github.com/Tab-SE/BridgeCTL/blob/main/assets/feature_details.md#adding-custom-dns-mappings).
 - (coming soon) support for UNC filemappings for File-based data sources.
