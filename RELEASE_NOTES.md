@@ -1,6 +1,7 @@
 # Release notes
 
 ### Version 2.2.84 (Sept 16, 2024)
+- Improvements to Add/Remove PAT Tokens Dialog
 - Small improvements to Jobs and Tasks report to include embeded extract refresh in addition to published data source.
 - Addional improvements to UNC path support for file-based data sources.
 - Update to ESRI and MS Sql driver install scripts.
