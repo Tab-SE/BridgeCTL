@@ -28,6 +28,7 @@ python bridgectl_setup.py
 Note python 3.10 or greater is required. Please use the appropriate python command on your machine to run the setup script, for example instead of "python" you may need to use "python3" or "python3.11". 
 The BridgeCTL setup script will create a folder "bridgectl" and a python virtual environment named tabenv. It will create a shortcut function `bridgectl` so that you can conveniently use that global command from the terminal. 
 
+Detailed setup instructions for [Linux](https://github.com/Tab-SE/BridgeCTL/blob/main/docs/setup_on_linux.md)
 
 ### Quickstart Demo
 ![Home](assets/bridgectl_quickstart2.gif)
