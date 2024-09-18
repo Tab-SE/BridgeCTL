@@ -31,7 +31,7 @@ The BridgeCTL setup script will create a folder "bridgectl" in the current direc
 
 Detailed setup instructions for [Linux](https://github.com/Tab-SE/BridgeCTL/blob/main/docs/setup_on_linux.md)
 
-### Quickstart Demo
+### Quickstart Demo Video
 ![Home](assets/bridgectl_quickstart2.gif)
 
 
