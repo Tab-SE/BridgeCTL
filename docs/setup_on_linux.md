@@ -1,6 +1,6 @@
 # Setup BridgeCTL on Redhat Linux
 BridgeCTL can be setup on Windows, Linux or Mac. You'll need to have Python >= 3.10 and Docker Desktop installed.
-Follow these steps specific steps for Redhat9 Linux..
+Follow these steps specific steps for Redhat9 Linux.
 
 
 ## Install Python
