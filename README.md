@@ -3,7 +3,7 @@
 BridgeCTL is a local command-line utility for Tableau Bridge. It solves many of the pain points faced by Bridge administrators.
 
 [![Community Supported](https://img.shields.io/badge/Support%20Level-Community%20Supported-457387.svg)](https://www.tableau.com/support-levels-it-and-developer-tools)
-[![GitHub](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://raw.githubusercontent.com/Tableau/TabPy/master/LICENSE)
+[![GitHub](https://img.shields.io/badge/license-AP2-brightgreen.svg)](https://github.com/tableau/bridgectl/blob/main/LICENSE.txt)
 
 ### Introduction
 BridgeCTL will help you build your Tableau Bridge Linux container images including downloading and 
@@ -28,6 +28,8 @@ python bridgectl_setup.py
 Note python 3.10 or greater is required. Please use the appropriate python command on your machine to run the setup script, for example instead of "python" you may need to use "python3" or "python3.11". 
 The BridgeCTL setup script will create a folder "bridgectl" and a python virtual environment named tabenv. It will create a shortcut function `bridgectl` so that you can conveniently use that global command from the terminal. 
 
+Optional Requirements
+- If you would like to run bridge agents containers in Kubernetes you will need access to AWS Elastic Container Registry and a Kubernetes cluster.
 
 ### Quickstart Demo
 ![Home](assets/bridgectl_quickstart2.gif)
@@ -59,7 +61,7 @@ See [official Tableau documentation](https://help.tableau.com/current/online/en-
 
 
 ### Release Notes
-[Release Notes](RELEASE_NOTES.md)
+[Release Notes](docs/RELEASE_NOTES.md)
 
 <br><br><br>
 ### User interface screenshots

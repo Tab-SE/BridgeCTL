@@ -1,5 +1,10 @@
 # Release notes
 
+### Version 2.3.29 (Oct 25, 2024)
+- Build bridge base image with only drivers, but no bridge_rpm.
+- Configure Login Password for BridgeCTL User Interface
+- Improvements to monitoring Bridge feature
+
 ### Version 2.2.84 (Sept 16, 2024)
 - Improvements to Add/Remove PAT Tokens Dialog
 - Small improvements to Jobs and Tasks report to include embeded extract refresh in addition to published data source.
