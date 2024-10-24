@@ -1,19 +1,20 @@
 
 # Tableau BridgeCTL
-BridgeCTL is a local command-line utility for Tableau Bridge. It solves many of the pain points faced by Bridge administrators.
+BridgeCTL is a local command-line utility for Tableau Bridge that addresses many of the pain points faced by Bridge administrators.
 
 [![Community Supported](https://img.shields.io/badge/Support%20Level-Community%20Supported-457387.svg)](https://www.tableau.com/support-levels-it-and-developer-tools)
-[![GitHub](https://img.shields.io/badge/license-AP2-brightgreen.svg)](https://github.com/tableau/bridgectl/blob/main/LICENSE.txt)
+[![GitHub](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://raw.githubusercontent.com/Tableau/TabPy/master/LICENSE)
 
 ### Introduction
 BridgeCTL will help you build your Tableau Bridge Linux container images including downloading and 
-installing the right database drivers and bridge .rpm installer. Then it will help you easily configure and 
-run your bridge containers in Docker or Kubernetes with the correct bridge settings (Tableau sitename, pool, PAT Token, etc.). 
-It will help you monitor the status and configuration of your running bridge agents and to also help analyze your bridge logs. 
+installing the right database drivers and bridge rpm installer. Then it will help you easily configure and 
+run your bridge containers in Docker or Kubernetes with the correct connection settings. It has a convenient 
+log viewer for bridge container logs in docker, kubernetes. It will also monitor the status and configuration of your 
+running bridge agents and can send you an alert if one of your agents becomes disconnected. 
 BridgeCTL can be installed on Linux, Windows or Mac.
 
 ### Setup
-BridgeCTL is easy to install. Just download and run the bridgectl_setup.py script using the following commands:
+BridgeCTL is easy to install. Just download and run the bridgectl_setup.py script using the following two commands:
 
 ```
 curl -OL https://github.com/tab-se/bridgectl/releases/download/setup/bridgectl_setup.py
@@ -26,12 +27,11 @@ python bridgectl_setup.py
 - BridgeCTL works on Windows, Linux or Mac
 
 Note python 3.10 or greater is required. Please use the appropriate python command on your machine to run the setup script, for example instead of "python" you may need to use "python3" or "python3.11". 
-The BridgeCTL setup script will create a folder "bridgectl" and a python virtual environment named tabenv. It will create a shortcut function `bridgectl` so that you can conveniently use that global command from the terminal. 
+The BridgeCTL setup script will create a folder "bridgectl" in the current directory and a python virtual environment named "tabenv". It will then create a shortcut function `bridgectl` so that you can conveniently use that global command from the terminal.
 
-Optional Requirements
-- If you would like to run bridge agents containers in Kubernetes you will need access to AWS Elastic Container Registry and a Kubernetes cluster.
+Detailed setup instructions for [Linux](https://github.com/Tab-SE/BridgeCTL/blob/main/docs/setup_on_linux.md)
 
-### Quickstart Demo
+### Quickstart Demo Video
 ![Home](assets/bridgectl_quickstart2.gif)
 
 
@@ -61,7 +61,7 @@ See [official Tableau documentation](https://help.tableau.com/current/online/en-
 
 
 ### Release Notes
-[Release Notes](docs/RELEASE_NOTES.md)
+[Release Notes](RELEASE_NOTES.md)
 
 <br><br><br>
 ### User interface screenshots
