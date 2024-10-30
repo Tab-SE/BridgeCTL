@@ -31,6 +31,9 @@ The BridgeCTL setup script will create a folder "bridgectl" in the current direc
 
 Detailed setup instructions for [Linux](https://github.com/Tab-SE/BridgeCTL/blob/main/docs/setup_on_linux.md)
 
+Optional Requirements
+- If you would like to run bridge agents containers in Kubernetes you will need access to AWS Elastic Container Registry and a Kubernetes cluster.
+
 ### Quickstart Demo Video
 ![Home](assets/bridgectl_quickstart2.gif)
 
