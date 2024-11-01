@@ -1,3 +1,0 @@
-# BridgeCTL Feature Details
-
-

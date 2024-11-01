@@ -10,7 +10,7 @@ The intent and goal of open sourcing this project is to increase the contributor
 
 # Getting started
 
-Please join the community on [Tableau DataDev Slack channel](https://join.slack.com/t/tableau-datadev/shared_invite/zt-2t4tr8mc6-X7jxKlfnx2a6JjfHkiFQWA). Also please make sure to take a look at the project [roadmap](docs/feature_roadmap.md) to see where are headed.
+Please join the community on [Tableau DataDev Slack channel](https://join.slack.com/t/tableau-datadev/shared_invite/zt-2t4tr8mc6-X7jxKlfnx2a6JjfHkiFQWA). Also please make sure to take a look at the project [roadmap](../../wiki/Feature-Roadmap) to see where are headed.
 
 # Issues, requests & ideas
 
