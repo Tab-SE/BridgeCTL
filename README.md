@@ -62,7 +62,7 @@ Optional Requirement:  If you would like to run bridge agents containers in Kube
   - In addition to building your bridge images for you, BridgeCTL can show you how to create and customize your own bridge docker files using best practices and also with different database drivers.
 
 ### Supportability & Help
-BridgeCTL is provided as Community-Supported as defined [here](https://www.tableau.com/support/itsupport). BridgeCTL has a great deal of helpful documentaion in this wiki. There are also knowledgeable people in the Tableau Community Forums. In addition, questions can be posted in the Tableau #DataDev Slack workspace in #help-bridge channel.
+BridgeCTL is Community-Supported as defined [here](https://www.tableau.com/support/itsupport). BridgeCTL has a great deal of helpful documentaion in this wiki. Also, questions can be posted in the Tableau DataDev Slack workspace in the channel [#help-bridge](https://tableau-datadev.slack.com/archives/C07TTGRTLP9), or in the Tableau Community forums.
 
 ### Documentation for Tableau Bridge
 See [official Tableau documentation](https://help.tableau.com/current/online/en-us/to_bridge_linux_install.htm) for creating bridge containers on Linux
