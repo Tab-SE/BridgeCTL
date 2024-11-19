@@ -3,7 +3,7 @@
 A command-line utility to build, run, and monitor Tableau Bridge Agents in containers.
 
 [![Community Supported](https://img.shields.io/badge/Support%20Level-Community%20Supported-457387.svg)](https://www.tableau.com/support-levels-it-and-developer-tools)
-[![GitHub](https://img.shields.io/badge/license-AP2-brightgreen.svg)](https://github.com/tableau/bridgectl/blob/main/LICENSE.txt)
+[![GitHub](https://img.shields.io/badge/license-AP2-brightgreen.svg)](/LICENSE.txt)
 
 ### Introduction
 BridgeCTL will help you build your Tableau Bridge Linux container images including downloading and 
