@@ -74,10 +74,10 @@ See [official Tableau documentation](https://help.tableau.com/current/online/en-
 <br><br><br>
 ### User interface screenshots
 
+<img width="566" alt="image" src="https://github.com/user-attachments/assets/65e10255-bc3e-43d8-a614-cd7b2022e95d" />
 
+&nbsp;
+&nbsp;
 
-![CLI](assets/cli2.png)
+<img width="1385" alt="image" src="https://github.com/user-attachments/assets/da702889-a75e-4f50-8215-0fb2a7d1ae56" />
 
-
-
-![Home](assets/home4.png)
