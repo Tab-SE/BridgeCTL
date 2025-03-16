@@ -14,12 +14,19 @@ running bridge agents and can send you an alert if one of your agents becomes di
 BridgeCTL can be installed on Linux, Windows or Mac.
 
 ### Setup
+
+> ⚠️ Notice:  
+> BridgeCTL is currently unavailable for download until a few updates can be made.  
+> Please check back later.  
+
+<!--
 BridgeCTL is easy to install. Just download and run the bridgectl_setup.py script using the following two commands:
 
 ```
 curl -OL https://github.com/tab-se/bridgectl/releases/download/setup/bridgectl_setup.py
 python bridgectl_setup.py
 ```
+-->
 
 Requirements
 - Python >= 3.10
