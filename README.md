@@ -15,13 +15,17 @@ BridgeCTL can be installed on Linux, Windows or Mac.
 
 ### Setup
 
+> ⚠️ Notice:  
+> BridgeCTL is currently unavailable for download on this repo. Please check back later.
 
+<!--
 BridgeCTL is easy to install. Just download and run the bridgectl_setup.py script using the following two commands:
 
 ```
 curl -OL https://github.com/crankcode/bridgectl/releases/download/setup/bridgectl_setup.py
 python bridgectl_setup.py
 ```
+-->
 
 Requirements
 - Python >= 3.10
