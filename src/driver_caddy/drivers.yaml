@@ -1,0 +1,486 @@
+# Driver Caddy driver install definition file
+---
+##### pre and post scripts ####
+- script_os: rhel8,rhel9,amazonlinux2023
+  pre_download_script: |
+    mkdir -p /tmp/driver_caddy
+  pre_install_script: |
+    yum -y install krb5-workstation libaio openssl unixODBC unixODBC-devel unzip wget findutils bind-utils iputils
+    mkdir -p /opt/tableau/tableau_driver/jdbc
+    export ACCEPT_EULA=y
+    # note that findutils bind-utils iputils are optional but useful for debugging connectivity
+  post_install_script: |
+    find /opt/tableau/tableau_driver/jdbc -name '*.jar' -type f -exec chmod 0755 {} \;
+    rm -rf /tmp/driver_caddy/*
+
+---
+##### driver install definitions ####
+- driver: postgresql
+  os: rhel8,rhel9,amazonlinux2023
+  type: jar
+  download_url: https://jdbc.postgresql.org/download/postgresql-42.7.4.jar
+  website: https://jdbc.postgresql.org/download
+
+- driver: mysql
+  os: rhel8,rhel9,amazonlinux2023
+  type: install
+  download_url: https://dev.mysql.com/get/mysql80-community-release-el8-9.noarch.rpm
+  website: https://dev.mysql.com
+  install: |
+    yum -y localinstall /tmp/driver_caddy/$download_name
+    yum -y install mysql-connector-odbc-8.0.33-1.el8
+  test: |
+    grep -n -F '[MySQL ODBC 8.0 ANSI Driver]' /etc/odbcinst.ini
+    grep -n -F '[MySQL ODBC 8.0 Unicode Driver]' /etc/odbcinst.ini
+    [ -f /usr/lib64/libmyodbc8a.so ]
+
+#- driver: amazon_emr_hadoop_hive
+#  os: rhel8,rhel9,amazonlinux2023
+#  type: install
+#  download_url: http://awssupportdatasvcs.com/bootstrap-actions/Simba/AmazonHiveODBC-2.6.9.1009.zip
+#  website: http://awssupportdatasvcs.com/bootstrap-actions/Simba
+#  version: 2.6.9.1009
+#  install: |
+#    cd /tmp
+#    unzip /tmp/driver_caddy/$download_name -d /tmp/amazon_emr_hadoop_hive
+#    yum -y localinstall /tmp/amazon_emr_hadoop_hive/AmazonHiveODBC-2.6.9.1009/AmazonHiveODBC-2.6.9.1009-1.x86_64.rpm
+#    odbcinst -i -d -f /opt/amazon/hiveodbc/Setup/odbcinst.ini
+#  test: |
+#    grep -n -F '[Amazon Hive ODBC Driver 64-bit]' /etc/odbcinst.ini
+#    [ -f /opt/amazon/hiveodbc/lib/64/libamazonhiveodbc64.so ]
+
+- driver: amazon_redshift
+  os: rhel8,rhel9,amazonlinux2023
+  type: install
+  download_url: https://s3.amazonaws.com/redshift-downloads/drivers/odbc/1.4.59.1000/AmazonRedshiftODBC-64-bit-1.4.59.1000-1.x86_64.rpm
+  install: |
+    yum -y --nogpgcheck localinstall /tmp/driver_caddy/$download_name
+    odbcinst -i -d -f /opt/amazon/redshiftodbc/Setup/odbcinst.ini
+  test: |
+    grep -n -F '[Amazon Redshift (x64)]' /etc/odbcinst.ini
+    [ -f /opt/amazon/redshiftodbc/lib/64/libamazonredshiftodbc64.so ]
+
+- driver: snowflake
+  os: rhel8,rhel9,amazonlinux2023
+  type: install
+  download_url: https://sfc-repo.snowflakecomputing.com/odbc/linux/2.25.12/snowflake-odbc-2.25.12.x86_64.rpm
+  version: 2.25.12
+  website: https://docs.snowflake.com/en/user-guide/odbc
+  install: |
+    yum -y localinstall /tmp/driver_caddy/$download_name
+  test: |
+    grep -n -F '[SnowflakeDSIIDriver]' /etc/odbcinst.ini
+    [ -f /usr/lib64/snowflake/odbc/lib/libSnowflake.so ]
+
+- driver: amazon_athena
+  os: rhel8,rhel9,amazonlinux2023
+  type: jar
+  download_url: https://s3.amazonaws.com/athena-downloads/drivers/JDBC/SimbaAthenaJDBC-2.1.5.1000/AthenaJDBC42.jar
+  version: 2.1.5.1000
+  website: https://docs.aws.amazon.com/athena/latest/ug/connect-with-jdbc.html
+
+- driver: cloudera_hive
+  os: rhel8,rhel9,amazonlinux2023
+  type: install
+  download_url: https://downloads.cloudera.com/connectors/ClouderaHive_ODBC_2.6.13.1013.zip
+  version: 2.6.13.1013
+  install: |
+    cd /tmp
+    unzip /tmp/driver_caddy/$download_name -d /tmp/cloudera_hive
+    yum -y localinstall /tmp/cloudera_hive/ClouderaHive_ODBC_2.6.13.1013/Linux/ClouderaHiveODBC-2.6.13.1013-1.x86_64.rpm
+    rm -rf /tmp/cloudera_hive
+    rm /tmp/driver_caddy/$download_name
+    odbcinst -i -d -f /opt/cloudera/hiveodbc/Setup/odbcinst.ini
+  test: |
+    grep -n -F '[Cloudera ODBC Driver for Apache Hive 64-bit]' /etc/odbcinst.ini
+    [ -f /opt/cloudera/hiveodbc/lib/64/libclouderahiveodbc64.so ]
+
+- driver: cloudera_impala
+  os: rhel8,rhel9,amazonlinux2023
+  type: install
+  download_url: https://downloads.cloudera.com/connectors/impala_odbc_2.6.14.1016.zip
+  version: 2.6.14.1016
+  install: |
+    unzip /tmp/driver_caddy/$download_name -d /tmp/cloudera_impala
+    yum -y localinstall /tmp/cloudera_impala/impala_odbc_2.6.14.1016/Linux/ClouderaImpalaODBC-2.6.14.1016-1.x86_64.rpm
+    odbcinst -i -d -f /opt/cloudera/impalaodbc/Setup/odbcinst.ini
+  test: |
+    grep -n -F '[Cloudera ODBC Driver for Impala 64-bit]' /etc/odbcinst.ini
+    [ -f /opt/cloudera/impalaodbc/lib/64/libclouderaimpalaodbc64.so ]
+
+- driver: datorama
+  os: rhel8,rhel9,amazonlinux2023
+  type: jar
+  download_url: https://galleryapi.tableau.com/productfiles/181/datorama-jdbc-1.0.7-jar-with-dependencies.jar
+  version: 1.0.7
+
+# - driver: denodo8
+#   os: rhel8,rhel9,amazonlinux2023
+#   type: jar
+#   download_url: # FutureDev: finish here https://community.denodo.com/drivers/jdbc/8.0
+#
+# - driver: denodo7
+#   os: rhel8,rhel9,amazonlinux2023
+#   type: jar
+#   download_url: # FutureDev: finish here https://community.denodo.com/drivers/jdbc/7.0
+
+- driver: dremio
+  os: rhel8,rhel9,amazonlinux2023
+  type: jar
+  download_url: https://download.dremio.com/jdbc-driver/25.2.0-202410241428100111-a963b970/dremio-jdbc-driver-25.2.0-202410241428100111-a963b970.jar
+  version: 25.2.0
+  website: https://docs.dremio.com/current/reference/jdbc-driver/
+
+#- driver: esri
+#  os: rhel8,rhel9,amazonlinux2023
+#  type: jar
+#  download_url: https://downloads.tableau.com/drivers/esri/esri-jdbc-driver-0.73.0.jar
+#  version: 0.73.0
+
+- driver: exasol
+  os: rhel8,rhel9,amazonlinux2023
+  type: install
+  download_url: https://x-up.s3.amazonaws.com/7.x/7.1.17/EXASOL_ODBC-7.1.17.tar.gz
+  version: 7.1.17
+  install: |
+    mkdir -p /opt/exasol
+    mkdir -p /tmp/exasol
+    tar -xvzf /tmp/driver_caddy/$download_name --directory /tmp/exasol --strip-components=1
+    cp -R /tmp/exasol/lib/linux/x86_64/. /opt/exasol
+    cat <<EOF >>/tmp/exasol/odbcinst.ini
+    [EXASolution Driver]
+    Driver=/opt/exasol/libexaodbc-uo2214lv2.so
+    EOF
+    odbcinst -i -d -f /tmp/exasol/odbcinst.ini
+  test: |
+    grep -n -F '[EXASolution Driver]' /etc/odbcinst.ini
+    [ -f /opt/exasol/libexaodbc-uo2214lv2.so ]
+
+- driver: firebolt
+  os: rhel8,rhel9,amazonlinux2023
+  type: jar
+  download_url: https://github.com/firebolt-db/jdbc/releases/download/v2.2.3/firebolt-jdbc-2.2.3.jar
+  version: 2.2.3
+
+
+- driver: google_bigquery
+  os: rhel8,rhel9,amazonlinux2023
+  download_url: https://storage.googleapis.com/simba-bq-release/jdbc/SimbaJDBCDriverforGoogleBigQuery42_1.3.0.1001.zip
+  version: 42_1.3.0.1001
+  type: install
+  install: | # A JAR but zipped
+    unzip /tmp/driver_caddy/$download_name -d /tmp/google_bigquery
+    mv -f /tmp/google_bigquery/GoogleBigQueryJDBC42.jar /opt/tableau/tableau_driver/jdbc/
+
+- driver: ibm_db2
+  os: rhel8,rhel9,amazonlinux2023
+  type: install
+  download_url: https://downloads.tableau.com/drivers/db2/v11.1.3fp3a_linuxx64_odbc_cli.tar.gz
+  version: 11.1.3
+  install: |
+    mkdir -p /opt/ibm_db2
+    mkdir -p /tmp/ibm_db2
+    tar -xvzf /tmp/driver_caddy/$download_name --directory /opt/ibm_db2 --strip-components=2
+    cat <<EOF >>/tmp/ibm_db2/odbcinst.ini
+    [IBM DB2 ODBC DRIVER]
+    Description=DB2 Driver
+    Driver=/opt/ibm_db2/lib/libdb2.so
+    EOF
+    odbcinst -i -d -f /tmp/ibm_db2/odbcinst.ini
+  test: |
+    grep -n -F '[IBM DB2 ODBC DRIVER]' /etc/odbcinst.ini
+    [ -f /opt/ibm_db2/lib/libdb2.so ]
+
+- driver: firebird3
+  os: rhel8,rhel9,amazonlinux2023
+  type: install
+  download_url: https://github.com/FirebirdSQL/jaybird/releases/download/v3.0.12/Jaybird-3.0.12-JDK_1.8.zip
+  version: 3.0.12
+  install: |
+    unzip /tmp/driver_caddy/$download_name -d /tmp/jaybird
+    mv -f /tmp/jaybird/jaybird-full-3.0.12.jar /opt/tableau/tableau_driver/jdbc/
+
+- driver: mariadb
+  os: rhel8,rhel9,amazonlinux2023
+  type: install
+  download_url: https://dlm.mariadb.com/997528/Connectors/odbc/connector-odbc-3.1.7/mariadb-connector-odbc-3.1.7-ga-rhel8-x86_64.tar.gz
+  version: 3.1.7
+  install: |
+    cat /etc/odbcinst.ini
+    mkdir -p /opt/mariadb
+    mkdir -p /tmp/mariadb
+    tar -xvzf /tmp/driver_caddy/$download_name --directory /tmp/mariadb
+    install /tmp/mariadb/lib64/libmaodbc.so /usr/lib64/
+    install -d /usr/lib64/mariadb/
+    install -d /usr/lib64/mariadb/plugin/
+    install /tmp/mariadb/lib64/mariadb/plugin/* /usr/lib64/mariadb/plugin/
+    cat <<EOF >>/tmp/mariadb/odbcinst.ini
+    [MariaDB ODBC 3.0 Driver]
+    Description=MariaDB Connector/ODBC v.3.0
+    Driver=/usr/lib64/libmaodbc.so
+    EOF
+    odbcinst -i -d -f /tmp/mariadb/odbcinst.ini
+  test: |
+    grep -n -F '[MariaDB ODBC 3.0 Driver]' /etc/odbcinst.ini
+    [ -f /usr/lib64/libmaodbc.so ]
+
+- driver: microsoft_sharepoint_lists
+  os: rhel8,rhel9,amazonlinux2023
+  type: install
+  download_url: https://downloads.tableau.com/drivers/microsoft/sharepoint/Linux/SharePoint_Tableau_7613.x86_64.rpm
+  version: 7613.x86_64
+  install: |
+    mkdir -p /tmp/microsoft_sharepoint_lists
+    yum -y localinstall /tmp/driver_caddy/$download_name
+    cat <<EOF >>/tmp/microsoft_sharepoint_lists/odbcinst.ini
+    [CData ODBC Driver for SharePoint]
+    Description=CData ODBC Driver for SharePoint
+    Driver=/opt/cdata/cdata-odbc-driver-for-sharepoint/lib/libsharepointodbc.x64.so
+    EOF
+    odbcinst -i -d -f /tmp/microsoft_sharepoint_lists/odbcinst.ini
+  test: |
+    grep -n -F '[CData ODBC Driver for SharePoint]' /etc/odbcinst.ini
+    [ -f /opt/cdata/cdata-odbc-driver-for-sharepoint/lib/libsharepointodbc.x64.so ]
+
+- driver: odps
+  os: rhel8,rhel9,amazonlinux2023
+  type: jar
+  download_url: https://github.com/aliyun/aliyun-odps-jdbc/releases/download/v3.3.3/odps-jdbc-3.3.3-jar-with-dependencies.jar
+  version: 3.3.3
+
+- driver: oracle
+  os: rhel8,rhel9,amazonlinux2023
+  type: jar
+  download_url: https://download.oracle.com/otn-pub/otn_software/jdbc/236/ojdbc11.jar
+  version: 2.36.0.0
+  comment: "Oracle JDBC Driver for JDK11 and above."
+
+- driver: oracle_essbase
+  os: rhel8,rhel9,amazonlinux2023
+  type: install
+  download_url: https://downloads.tableau.com/drivers/linux/yum/tableau-driver/tableau-essbase-19.3.0.2.001-1.x86_64.rpm
+  version: 19.3.0.2.001-1
+  install: |
+    yum -y localinstall /tmp/driver_caddy/$download_name
+  test: |
+    [ -f /opt/tableau/tableau_driver/essbase/bin/libessutf8.so ]
+
+- driver: oracle_netsuite
+  os: rhel8,rhel9,amazonlinux2023
+  type: jar
+  download_url: https://downloads.tableau.com/drivers/cdata/jdbc/cdata.tableau.netsuite.jar
+
+- driver: oracle_netsuite_taco
+  os: rhel8,rhel9,amazonlinux2023
+  type: install
+  download_url: LOCAL cdata_netsuite-v20.7923.0.taco
+  website: https://exchange.tableau.com/products/288
+  version: 20.7923.0
+  install: |
+    set -ex
+    if [ "$IS_RELEASE" = "true" ]; then
+        beta=""
+    else
+        beta="_Beta"
+    fi
+    connectors_dir=~/Documents/My_Tableau_Bridge_Repository$beta/Connectors
+    echo "creating connectors directory: $connectors_dir"
+    mkdir -p $connectors_dir
+    mv -f /tmp/driver_caddy/$download_name $connectors_dir/$download_name
+
+- driver: qubole
+  os: rhel8,rhel9,amazonlinux2023
+  type: jar
+  download_url: https://s3.amazonaws.com/paid-qubole/jdbc/qds-jdbc-3.0.3.jar
+  version: 3.0.3
+
+- driver: salesforce_cdp
+  os: rhel8,rhel9,amazonlinux2023
+  type: jar
+  download_url: https://github.com/forcedotcom/Salesforce-CDP-jdbc/releases/download/v1.19.8/Salesforce-CDP-jdbc-1.19.8.jar
+  version: 1.13.0
+
+- driver: salesforce_marketing_cloud
+  os: rhel8,rhel9,amazonlinux2023
+  type: jar
+  download_url: https://downloads.tableau.com/drivers/Salesforce_MarketingCloud/cdata.tableau.sfmarketingcloud.jar
+  version:
+
+- driver: databricks
+  os: rhel8,rhel9,amazonlinux2023
+  type: install
+  download_url: LOCAL simbaspark-2.8.2.1013-1.x86_64.rpm
+  website: https://www.databricks.com/spark/odbc-drivers-download
+  version: 2.8.2.1013
+  install: |
+    dnf install -y unixODBC unixODBC-devel || error_exit "Failed to install ODBC dependencies"
+    if ! dnf install -y "/tmp/driver_caddy/$download_name"; then
+        error_exit "Failed to install Databricks ODBC driver"
+    fi
+    if ! odbcinst -i -d -f /opt/simba/spark/Setup/odbcinst.ini; then
+        error_exit "Failed to configure Databricks ODBC driver"
+    fi
+  test: |
+    grep -n -F '[Simba Spark ODBC Driver]' /etc/odbcinst.ini
+    [ -f /opt/simba/spark/lib/64/libsparkodbc_sb64.so ]
+
+- driver: singlestore
+  os: rhel8,rhel9,amazonlinux2023
+  type: install
+  download_url: https://github.com/memsql/singlestore-odbc-connector/releases/download/v1.0.7/singlestore-connector-odbc-1.0.7-centos8-amd64.tar.gz
+  version: 1.0.7
+  install: |
+    mkdir -p /opt/singlestore
+    mkdir -p /tmp/singlestore
+    tar -xvzf /tmp/driver_caddy/$download_name --directory /opt/singlestore --strip-components=1
+    cat <<EOF >>/tmp/singlestore/odbcinsta.ini
+    [SingleStore ODBC ANSI Driver]
+    Description=SingleStore ODBC ANSI Driver
+    Driver=/opt/singlestore/libssodbca.so
+    EOF
+    cat <<EOF >>/tmp/singlestore/odbcinstw.ini
+    [SingleStore ODBC Unicode Driver]
+    Description=SingleStore ODBC Unicode Driver
+    Driver=/opt/singlestore/libssodbcw.so
+    EOF
+    odbcinst -i -d -f /tmp/singlestore/odbcinsta.ini
+    odbcinst -i -d -f /tmp/singlestore/odbcinstw.ini
+  test: |
+    grep -n -F '[SingleStore ODBC ANSI Driver]' /etc/odbcinst.ini
+    grep -n -F '[SingleStore ODBC Unicode Driver]' /etc/odbcinst.ini
+    [ -f /opt/singlestore/libssodbca.so ]
+    [ -f /opt/singlestore/libssodbcw.so ]
+
+- driver: esri
+  type: jar
+  os: rhel8,rhel9,amazonlinux2023
+  download_url: https://downloads.tableau.com/drivers/esri/esri-jdbc-driver-0.73.0.jar
+  version: 0.73.0
+
+- driver: sap_success_factors
+  os: rhel8,rhel9,amazonlinux2023
+  type: jar
+  download_url: https://downloads.tableau.com/drivers/cdata/jdbc/cdata.tableau.sapsuccessfactors.jar
+  version:
+
+- driver: sap_hana
+  os: rhel8,rhel9,amazonlinux2023
+  type: jar
+  download_url: LOCAL ngdbc-latest.jar
+  version: latest
+  website: https://tools.hana.ondemand.com/#hanatools
+
+- driver: service_now
+  os: rhel8,rhel9,amazonlinux2023
+  type: jar
+  download_url: https://downloads.tableau.com/drivers/ServiceNOW_JDBC/cdata.tableau.servicenow.21-0-8294.jar
+  version: 21-0-8294
+
+- driver: trino
+  os: rhel8,rhel9,amazonlinux2023
+  type: jar
+  download_url: https://repo1.maven.org/maven2/io/trino/trino-jdbc/397/trino-jdbc-397.jar
+  version: "397"
+
+- driver: microsoft_sql_server
+  os: rhel8,rhel9,amazonlinux2023
+  type: install
+  download_url: https://packages.microsoft.com/config/rhel/9/prod.repo
+  version: 17.10.2.1
+  install: |
+    mv /tmp/driver_caddy/$download_name /etc/yum.repos.d/mssql-release.repo
+    yum remove unixODBC-utf16 unixODBC-utf16-devel #to avoid conflicts
+    ACCEPT_EULA=Y yum install -y msodbcsql17    
+    ACCEPT_EULA=Y yum install -y mssql-tools # optional: for bcp and sqlcmd
+    echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+  test: |
+    grep -n -F '[ODBC Driver 17 for SQL Server]' /etc/odbcinst.ini
+    [ -f /opt/microsoft/msodbcsql17/lib64/libmsodbcsql-17.10.so.2.1 ]
+
+#- driver: vertica
+#  os: rhel9
+#  type: install
+#  download_url: https://www.vertica.com/client_drivers/12.0.x/12.0.1-0/vertica-client-12.0.1-0.x86_64.rpm
+#  version: 12.0.1-0
+#  install: |
+#    mkdir -p /tmp/vertica
+#    yum -y localinstall /tmp/driver_caddy/$download_name
+#    cat <<EOF >>/etc/vertica.ini
+#    [Driver]
+#    DriverManagerEncoding=UTF-16
+#    ODBCInstLib=/usr/lib64/libodbcinst.so
+#    ErrorMessagesPath=/opt/vertica
+#    LogLevel=4
+#    LogPath=/tmp
+#    EOF
+#    cat <<EOF >>/tmp/vertica/odbcinst.ini
+#    [Vertica]
+#    Description=Vertica ODBC Driver
+#    Driver=/opt/vertica/lib64/libverticaodbc.so
+#    EOF
+#    odbcinst -i -d -f /tmp/vertica/odbcinst.ini
+#  test: |
+#    grep -n -F '[Vertica]' /etc/odbcinst.ini
+#    [ -f /opt/vertica/lib64/libverticaodbc.so ]
+
+#- driver: s3_postgresql
+#  os: rhel8,rhel9,amazonlinux2023
+#  type: jar
+#  download_url: s3://tableau-app-services-dev/ec2_image_builder/drivers_jdbc/postgresql-42.4.0.jar
+#  version: 42.4.0
+
+#- driver: vectorwise
+#  os: rhel8,rhel9,amazonlinux2023
+#  type: install
+#  download_url: LOCAL actian-client-1.2.0-49-free-linux-rpm-x86_64.tgz
+#  version: 1.2.0-49
+#  website: https://docs.actian.com/vector/6.0/index.html#page/User/Vectorwise_ODBC_Driver.htm
+#  install: |
+#    mkdir -p /tmp/vectorwise
+#    if ! tar -xzvf "/tmp/driver_caddy/$download_name" -C /tmp/vectorwise; then
+#        error_exit "Failed to extract Vectorwise driver archive"
+#    fi
+#    if ! dnf install -y "/tmp/vectorwise/actian-client-1.2.0-49-free-linux-rpm-x86_64.rpm"; then
+#        error_exit "Failed to install Vectorwise driver"
+#    fi
+#    if ! cp /tmp/vectorwise/iijdbc.jar /opt/tableau/tableau_driver/jdbc/; then
+#        error_exit "Failed to copy JDBC driver"
+#    fi
+#    # Configure ODBC driver
+#    cat <<EOF >> /etc/odbcinst.ini
+#    [Ingres]
+#    Description = Actian Vector ODBC Driver
+#    Driver = /opt/Actian/Vector/ingres/lib/libvectorodbc.so
+#    Setup = /opt/Actian/Vector/ingres/lib/libvectorodbc.so
+#    EOF
+#
+#    # Clean up
+#    rm -rf /tmp/vectorwise
+#  test: |
+#    grep -n -F '[Ingres]' /etc/odbcinst.ini
+#    [ -f /opt/Actian/Vector/ingres/lib/libvectorodbc.so ]
+#    [ -f /opt/tableau/tableau_driver/jdbc/iijdbc.jar ]
+
+- driver: teradata
+  os: rhel9
+  type: install
+  download_url: LOCAL tdodbc2000-20.00.00.18-1.x86_64.rpm
+  website: https://downloads.teradata.com/download/connectivity/odbc-driver/linux
+  version: 20.00.00.18
+  install: |
+    dnf install -y unixODBC unixODBC-devel libtool-ltdl || error_exit "Failed to install Teradata dependencies"
+    # Install Teradata ODBC driver
+    if ! dnf install -y "/tmp/driver_caddy/$download_name"; then
+        error_exit "Failed to install Teradata ODBC driver"
+    fi    
+    # Configure ODBC driver
+    cat <<EOF >> /etc/odbcinst.ini
+    [Teradata Database ODBC Driver 20.00]
+    Description=Teradata Database ODBC Driver 20.00
+    Driver=/opt/teradata/client/ODBC_64/lib/tdataodbc_sb64.so
+    DriverODBCVer=03.52
+    UsageCount=1
+    EOF
+  test: |
+    grep -n -F '[Teradata Database ODBC Driver 20.00]' /etc/odbcinst.ini
+    [ -f /opt/teradata/client/ODBC_64/lib/tdataodbc_sb64.so ]

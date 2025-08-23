@@ -1,0 +1,36 @@
+FROM $BASEIMAGE
+
+RUN yum install -y wget unzip
+
+# Create tableau user
+RUN groupadd --system --gid 1000 tableau &&  \
+    adduser --system --gid 1000 --uid 1000 --shell /bin/bash --home /home/tableau tableau
+
+WORKDIR /home/tableau
+
+RUN echo 'export LANG="en_US.utf8"' >> /etc/profile && \
+    echo 'export LANGUAGE="en_US.utf8"' >> /etc/profile && \
+    echo 'export LC_ALL="en_US.utf8"' >> /etc/profile
+
+ENV ACCEPT_EULA=y
+
+# Install selected database drivers
+COPY ./container_image_builder /home/tableau/container_image_builder
+
+RUN cd /home/tableau/container_image_builder && find . -name '*.sh' -type f -exec chmod 0755 {} \; && ./run.sh
+
+# Additional Drivers can be installed here
+$ADDITIONAL_DRIVERS
+
+# Install the Tableau Bridge RPM
+ARG BRIDGERPM
+COPY $BRIDGERPM /home/tableau/
+RUN cd /home/tableau/ && ACCEPT_EULA=y yum localinstall -y $BRIDGERPM && rm -f $BRIDGERPM
+
+# Set entrypoint
+COPY start-bridgeclient.sh .
+RUN chmod +x start-bridgeclient.sh && chown -R tableau:tableau /home/tableau
+
+USER tableau
+
+CMD ["./start-bridgeclient.sh"]

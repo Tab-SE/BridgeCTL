@@ -1,0 +1,11 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: container-name-placeholder
+  labels:
+    application: tableau_bridge
+spec:
+  containers:
+  - name: container-name-placeholder
+    image: image-url-placeholder

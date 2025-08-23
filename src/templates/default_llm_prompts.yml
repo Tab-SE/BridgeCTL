@@ -1,0 +1,28 @@
+bridge_jobs_analysis:
+  Summary Analysis: >
+    Please 1) summarize what is happening in this log and anything interesting 
+    2) list the data sources that successfully refreshed.
+    3) list out the data sources which failed to refresh and the failure reason(s).
+  Failure Analysis: >
+    Please analyze the failed jobs in detail: 
+    1) group failures by type/reason 
+    2) identify any patterns in the failures 
+    3) suggest potential solutions for the most common issues.
+  Bridge Agent Workload: >
+    Please analyze the workload distribution across Bridge Agents: 
+    1) Show how many jobs each Bridge agent handled in this format: "agent-name: _ jobs, _ failures" . show a bullet list with sorted descending by number of jobs.
+    2) identify peak times. Show number of jobs in these time blocks: 12-4pm, 4-8pm, 8pm-12am, 12-4am, 4-8am, 8-12pm.
+    Add summary comments/ observations at the end.
+  Data Source Patterns: >
+    Please analyze patterns in data source refreshes: 
+    1) which data sources refresh most frequently 
+    2) which take longest to refresh 
+    3) identify any data sources with consistent issues.
+  Performance Analysis: >
+    Please analyze the performance of the Bridge agents: 
+    1) identify any agents that seem overloaded 
+    2) calculate average refresh times 
+    3) highlight any concerning patterns in refresh times or queuing.
+  User Prompt: >
+    Enter your own log analysis prompt here. 
+    

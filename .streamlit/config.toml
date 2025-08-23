@@ -1,0 +1,17 @@
+[server]
+address = "localhost"
+port = 8505
+runOnSave = true
+[browser]
+gatherUsageStats = false
+[client]
+toolbarMode = "minimal" #top right streamlit toolbar.
+showErrorDetails = "full"
+[runner]
+magicEnabled = false
+[theme]
+base="light"
+primaryColor = "#F37421"  # Tableau Orange
+backgroundColor = "#FAFAFA"  # Tableau off-white
+secondaryBackgroundColor = "#F3F3F3"  # Tableau Gray
+#font = "sans serif"

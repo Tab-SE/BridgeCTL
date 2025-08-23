@@ -1,0 +1,22 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: container-name-placeholder
+spec:
+  containers:
+  - name: container-name-placeholder
+    image: image-url-placeholder
+    imagePullPolicy: Always
+    volumeMounts:
+    - name: token-files
+      mountPath: "/etc/tokens"
+      readOnly: true
+    lifecycle:
+      postStart:
+        exec:
+          command: ["/bin/sh", "-c", "cp /etc/tokens/container-name-placeholder /etc/tokenFile.json"]
+  volumes:
+  - name: token-files
+    secret:
+      secretName: container-name-placeholder

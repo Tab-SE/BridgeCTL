@@ -1,0 +1,11 @@
+FROM #<FROM_BASEIMAGE>
+
+WORKDIR /bridge_setup
+
+COPY drivers_download.sh drivers_install.sh /bridge_setup/
+#<COPY_DRIVER_FILES>
+
+RUN cd /bridge_setup && chmod +x *.sh && \
+    ./drivers_download.sh && \
+    ./drivers_install.sh
+
